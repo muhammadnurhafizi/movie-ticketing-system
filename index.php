@@ -5,7 +5,9 @@ $conn = get_db_connection();
 get_movies($conn);
 
 // add_movie($conn);
-// get_movies($conn);
+update_movie($conn);
+
+get_movies($conn);
 
 
 
@@ -124,4 +126,32 @@ function parse_release_date($release_date) {
     $release_date = trim($release_date);
     $date = DateTime::createFromFormat('Y-m-d', $release_date);
     return $date ? $date->format('Y-m-d') : null;
+}
+
+function update_movie($conn) {
+    echo "<h3>Update Movie</h3>";
+
+    $data = [
+        "id"            => 4,
+        "title"         => "boku no kokoro no yabai yatsu movie 2",
+        "genre"         => array("Romance", "Drama"),
+        "duration"      => 120,
+        "rating"        => 8.5,
+        "release_date"  => "2027-01-23"
+    ];
+
+    $id             = (int) $data['id'];
+    $title          = parse_title($data['title']);
+    $genre          = parse_genre($data['genre']);
+    $duration       = parse_duration($data['duration']);
+    $rating         = parse_rating($data['rating']);
+    $release_date   = parse_release_date($data['release_date']);
+
+    $stmt = $conn->prepare("UPDATE movie SET title = ?, genre = ?, duration = ?, rating = ?, release_date = ? WHERE id = ?");
+    $stmt->bind_param("ssidsi", $title, $genre, $duration, $rating, $release_date, $id);
+    if ($stmt->execute()) {
+        echo "Movie updated successfully. Movie ID: " . $id . "</br>";
+    } else {
+        echo "Error: " . $stmt->error;
+    }
 }

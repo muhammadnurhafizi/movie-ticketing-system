@@ -8,7 +8,7 @@ CREATE TABLE `movie` (
   `release_date` date NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- insert movie data
 INSERT INTO `movie-ticketing-system`.`movie` (`title`, `genre`, `duration`, `rating`, `release_date`) VALUES ('chainsaw main movie: reze-hen', '[{\"name\":\"action\"},{\"name\":\"fantasy\"}]', '99', '9.11', '2025-09-19');
