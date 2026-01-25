@@ -4,8 +4,8 @@ $conn = get_db_connection();
 
 get_movies($conn);
 
-add_movie($conn);
-get_movies($conn);
+// add_movie($conn);
+// get_movies($conn);
 
 
 
@@ -27,9 +27,10 @@ function get_db_connection() {
 function get_movies($conn) {
     echo "<h3>Movie List</h3>";
 
-    $sql = "SELECT * FROM movie;";
-    $result = mysqli_query($conn, $sql);
+    $stmt = $conn->prepare("SELECT * FROM movie;");
+    $stmt->execute();
 
+    $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             echo "- Title: " . format_title($row['title']) . "</br>";
@@ -55,6 +56,8 @@ function format_duration($duration) {
 }
 
 function format_rating($rating) {
+    if ($rating === null)
+        return "N/A";
     return "{$rating}/10";
 }
 
@@ -76,7 +79,7 @@ function add_movie($conn) {
         "title"         => "boku no kokoro no yabai yatsu movie",
         "genre"         => array("Comedy", "Romance"),
         "duration"      => 105,
-        "rating"        => 8.25,
+        "rating"        => null,
         "release_date"  => "2026-02-13"
     ];
 
@@ -86,11 +89,12 @@ function add_movie($conn) {
     $rating         = parse_rating($data['rating']);
     $release_date   = parse_release_date($data['release_date']);
 
-    $sql = "INSERT INTO movie (title, genre, duration, rating, release_date) VALUES ('$title', '$genre', $duration, $rating, '$release_date')";
-    if (mysqli_query($conn, $sql)) {
-        echo "New movie added successfully. Movie ID: " . mysqli_insert_id($conn) . "</br>";
+    $stmt = $conn->prepare("INSERT INTO movie (title, genre, duration, rating, release_date) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssids", $title, $genre, $duration, $rating, $release_date);
+    if ($stmt->execute()) {
+        echo "New movie added successfully. Movie ID: " . $stmt->insert_id . "</br>";
     } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        echo "Error: " . $stmt->error;
     }
 }
 
