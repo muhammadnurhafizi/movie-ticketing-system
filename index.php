@@ -4,6 +4,11 @@ $conn = get_db_connection();
 
 get_movies($conn);
 
+add_movie($conn);
+get_movies($conn);
+
+
+
 function get_db_connection() {
     $hostname = "localhost";
     $username = "root";
@@ -62,4 +67,57 @@ function format_genre($genre) {
     $arr_genre = array_column($json_genre, 'name');
     $str_genre = implode(", ", $arr_genre);
     return ucwords(strtolower($str_genre));
+}
+
+function add_movie($conn) {
+    echo "<h3>Add New Movie</h3>";
+
+    $data = [
+        "title"         => "boku no kokoro no yabai yatsu movie",
+        "genre"         => array("Comedy", "Romance"),
+        "duration"      => 105,
+        "rating"        => 8.25,
+        "release_date"  => "2026-02-13"
+    ];
+
+    $title          = parse_title($data['title']);
+    $genre          = parse_genre($data['genre']);
+    $duration       = parse_duration($data['duration']);
+    $rating         = parse_rating($data['rating']);
+    $release_date   = parse_release_date($data['release_date']);
+
+    $sql = "INSERT INTO movie (title, genre, duration, rating, release_date) VALUES ('$title', '$genre', $duration, $rating, '$release_date')";
+    if (mysqli_query($conn, $sql)) {
+        echo "New movie added successfully. Movie ID: " . mysqli_insert_id($conn) . "</br>";
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    }
+}
+
+function parse_title($title) {
+    return strtolower(trim($title));
+}
+
+function parse_genre($genre) {
+    return json_encode(array_map(function($g) {
+        return ['name' => trim($g)];
+    }, $genre));
+}
+
+function parse_duration($duration) {
+    return (int) $duration;
+}
+
+function parse_rating($rating) {
+    if ($rating == null) {
+        return null;
+    }
+
+    return is_numeric($rating) ? (float) $rating : null;
+}
+
+function parse_release_date($release_date) {
+    $release_date = trim($release_date);
+    $date = DateTime::createFromFormat('Y-m-d', $release_date);
+    return $date ? $date->format('Y-m-d') : null;
 }
