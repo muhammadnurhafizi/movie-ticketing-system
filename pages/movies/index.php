@@ -2,7 +2,7 @@
 
 require_once '../../bootstrap.php';
 
-$movies = $movie_repo->get_movies();
+$movies = $movie_controller->get_movies();
 
 ?>
 <!DOCTYPE html>
@@ -45,9 +45,10 @@ $movies = $movie_repo->get_movies();
                                     <tr>
                                         <th scope="col">No</th>
                                         <th scope="col">Title</th>
-                                        <th scope="col">Release Year</th>
+                                        <th scope="col">Release Date</th>
                                         <th scope="col">Genre</th>
-                                        <th scope="col">Ratiing</th>
+                                        <th scope="col">Rating</th>
+                                        <th scope="col">Duration</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -59,6 +60,7 @@ $movies = $movie_repo->get_movies();
                                             <td><?php echo htmlspecialchars($movie->release_date); ?></td>
                                             <td><?php echo htmlspecialchars($movie->genre); ?></td>
                                             <td><?php echo htmlspecialchars($movie->rating); ?></td>
+                                            <td><?php echo htmlspecialchars($movie->duration); ?></td>
                                             <td>
                                                 <a 
                                                     href="<?php echo '/pages/movies/show.php?id=' . urlencode($movie->id); ?>" 

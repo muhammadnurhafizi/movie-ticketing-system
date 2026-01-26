@@ -21,5 +21,17 @@ require_once 'view_models/movie_vm.php';
 // include repositories
 require_once 'repositories/movie_repository.php';
 
+// include services
+require_once 'services/movie_service.php';
+
+// include controllers
+require_once 'controllers/movie_controller.php';
+
 // initialize repositories
 $movie_repo = new MovieRepository($conn);
+
+// initialize services  
+$movie_service = new MovieService($movie_repo);
+
+// initialize controllers
+$movie_controller = new MovieController($movie_service);
