@@ -2,13 +2,14 @@
 
 $conn = get_db_connection();
 
-// get_movies($conn);
+get_movies($conn);
 
 // add_movie($conn);
 // update_movie($conn);
-get_movie($conn);
+// get_movie($conn);
+delete_movie($conn);
 
-// get_movies($conn);
+get_movies($conn);
 
 
 
@@ -178,5 +179,19 @@ function get_movie($conn) {
         }
     } else {
         echo "0 results";
+    }
+}
+
+function delete_movie($conn) {
+    echo "<h3>Delete Movie</h3>";
+
+    $movie_id = 4;
+
+    $stmt = $conn->prepare("DELETE FROM movie WHERE id = ?;");
+    $stmt->bind_param("i", $movie_id);
+    if ($stmt->execute()) {
+        echo "Movie deleted successfully. Movie ID: " . $movie_id . "</br>";
+    } else {
+        echo "Error: " . $stmt->error;
     }
 }
