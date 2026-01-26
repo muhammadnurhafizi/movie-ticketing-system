@@ -1,0 +1,9 @@
+<?php
+
+return [
+    'hostname' => '',
+    'username' => '',
+    'password' => '',
+    'database' => '',
+    'port'     => 3306,
+];
