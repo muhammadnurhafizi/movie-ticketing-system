@@ -22,4 +22,11 @@ class MovieRepository {
         
         return $movies;
     }
+
+    public function store_movie($data) {
+        $stmt = $this->conn->prepare("INSERT INTO movie (title, release_date, rating, duration, genre) VALUES (?, ?, ?, ?, ?);");
+        $stmt->bind_param("ssdis", $data['title'], $data['release_date'], $data['rating'], $data['duration'], $data['genre']);
+        $stmt->execute();
+        return $this->conn->insert_id;
+    }
 }

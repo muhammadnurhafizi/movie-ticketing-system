@@ -10,4 +10,8 @@ class MovieController {
     public function get_movies() {
         return $this->movie_service->get_movies();
     }
+
+    public function store_movie(StoreMovieRequest $request) {
+        return $this->movie_service->store_movie($request);
+    }
 }

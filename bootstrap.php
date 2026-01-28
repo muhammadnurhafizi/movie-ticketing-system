@@ -27,6 +27,9 @@ require_once 'services/movie_service.php';
 // include controllers
 require_once 'controllers/movie_controller.php';
 
+// include requests
+require_once 'requests/movies/store_movie_request.php';
+
 // initialize repositories
 $movie_repo = new MovieRepository($conn);
 
