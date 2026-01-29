@@ -27,6 +27,16 @@
                 </div>
             </div>
         <?php endif ?>
+
+        <?php if (isset($error)): ?>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="alert alert-danger" role="alert">
+                        <?= $error ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif ?>
         
         <div class="row mb-3">
             <div class="col-12">

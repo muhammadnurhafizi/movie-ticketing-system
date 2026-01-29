@@ -14,3 +14,8 @@ if (isset($_GET['success'])) {
     if ($_GET['success'] == 'deleted')
         $success = "Movie deleted successfully";
 }
+
+if (isset($_GET['error'])) {
+    if ($_GET['error'] == 'movie_not_found')
+        $error = "Movie not found";
+}
