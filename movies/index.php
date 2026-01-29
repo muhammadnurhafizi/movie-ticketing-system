@@ -18,11 +18,11 @@
 
 <body>
     <div class="container mt-4">
-        <?php if (isset($errors['general'])): ?>
+        <?php if (isset($success)): ?>
             <div class="row mb-3">
                 <div class="col-12">
-                    <div class="alert alert-primary" role="alert">
-                        <?= $errors['general'] ?>
+                    <div class="alert alert-success" role="alert">
+                        <?= $success ?>
                     </div>
                 </div>
             </div>
