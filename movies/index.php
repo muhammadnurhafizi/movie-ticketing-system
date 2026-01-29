@@ -87,11 +87,29 @@
                                                     class="btn btn-sm btn-warning">
                                                     Edit
                                                 </a>
-                                                <a 
-                                                    href="<?php echo '/movies/delete.php?id=' . urlencode($movie->id); ?>" 
-                                                    class="btn btn-sm btn-danger">
-                                                    Delete
-                                                </a>
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modal-delete-<?= htmlspecialchars($movie->id) ?>">Delete</button>
+
+                                                <form action="/movies/delete.php" method="post">
+                                                    <input type="hidden" name="id" value="<?= htmlspecialchars($movie->id) ?>">
+
+                                                    <div class="modal fade" id="modal-delete-<?= htmlspecialchars($movie->id) ?>" tabindex="-1" aria-labelledby="modal-delete-<?= htmlspecialchars($movie->id) ?>-title" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h1 class="modal-title fs-5" id="modal-delete-<?= htmlspecialchars($movie->id) ?>-title">Delete Movie</h1>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <p>Delete movie <?= htmlspecialchars($movie->title); ?>?</p>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit" name="delete_movie" class="btn btn-danger">Yes</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
